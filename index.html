@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lea Mouawad — Architect &amp; Level Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0c0c0c; --bg2: #141414;
+      --accent: #e8ff47; --text: #e2e2e2;
+      --muted: #606060; --border: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(12,12,12,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--accent); text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 0 4rem 5.5rem; position: relative;
+      background: url('hero_bg.jpg') center center / cover no-repeat;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(12,12,12,0.92) 30%, rgba(12,12,12,0.55) 70%, rgba(12,12,12,0.3) 100%);
+      pointer-events: none;
+    }
+    #hero > * { position: relative; z-index: 1; }
+    .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .hero-name { font-size: clamp(3.5rem, 9vw, 8.5rem); font-weight: 700; line-height: 0.93; letter-spacing: -0.025em; margin-bottom: 2.5rem; }
+    .hero-name .dim { color: var(--muted); font-weight: 300; }
+    .hero-sub { max-width: 440px; color: var(--muted); font-size: 1rem; line-height: 1.75; border-left: 2px solid var(--accent); padding-left: 1.25rem; }
+    .hero-scroll { position: absolute; bottom: 2.5rem; right: 4rem; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; }
+    .hero-scroll::before { content: ''; display: block; width: 36px; height: 1px; background: var(--muted); }
+
+    /* SECTIONS */
+    section { padding: 7rem 4rem; border-top: 1px solid var(--border); }
+    .section-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 3.5rem; display: flex; align-items: center; gap: 1rem; }
+    .section-label::after { content: ''; display: block; width: 50px; height: 1px; background: var(--accent); opacity: 0.45; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; align-items: start; }
+    .about-heading { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 2rem; }
+    .about-heading em { font-style: normal; color: var(--accent); }
+    .about-text { color: var(--muted); font-size: 0.975rem; line-height: 1.82; }
+    .about-text + .about-text { margin-top: 1.1rem; }
+    /* photo */
+    .about-photo-wrap { position: relative; cursor: pointer; }
+    .about-photo-wrap::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1.5px solid var(--accent); opacity: 0.4; pointer-events: none; z-index: 2; }
+    .about-photo-wrap img { width: 100%; display: block; position: relative; z-index: 1; filter: grayscale(10%); transition: filter 0.3s; }
+    .about-photo-wrap:hover img { filter: grayscale(0%); }
+    /* Hello bubble */
+    .about-hello { position: absolute; top: -3rem; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--accent); color: #000; font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.45rem 0.9rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 10; }
+    .about-hello::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--accent); }
+    .about-photo-wrap:hover .about-hello { opacity: 1; transform: translateX(-50%) translateY(0); }
+    /* education cards */
+    .about-edu { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .edu-card { border-left: 2px solid var(--accent); padding: 0.6rem 0 0.6rem 1rem; }
+    .edu-degree { font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .edu-school { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--accent); margin-top: 0.2rem; }
+    .edu-mention { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+    /* current role */
+    .about-role { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+    .about-role-title { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .about-role-place { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+    .project-card { position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 4/3; background: var(--bg2); }
+    .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.65s ease; }
+    .project-card:hover img { transform: scale(1.04); }
+    .project-card { transition: box-shadow 0.35s ease; }
+    .project-card:hover { box-shadow: 0 0 35px rgba(232,255,71,0.28), 0 0 70px rgba(232,255,71,0.1); }
+    .project-card-info { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%); }
+    .project-num { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.4rem; }
+    .project-title { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
+    .project-loc { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+    .project-arrow { position: absolute; top: 1.5rem; right: 1.5rem; width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(6px); transition: opacity 0.3s, transform 0.3s, border-color 0.3s; }
+    .project-card:hover .project-arrow { opacity: 1; transform: translateY(0); border-color: var(--accent); }
+    .project-arrow svg { width: 13px; height: 13px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+    .project-card--wide { grid-column: 1 / -1; aspect-ratio: 16/7; }
+    /* double-width project card */
+    .project-card--double { grid-column: span 2; aspect-ratio: unset; }
+    /* MM plans grid with labels */
+    .mm-plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 0.75rem; }
+    .mm-plan { display: flex; flex-direction: column; }
+    .mm-plan img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #0d0d0d; display: block; filter: brightness(0.9); transition: filter 0.3s; }
+    .mm-plan img:hover { filter: brightness(1); }
+    .mm-plan span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0.3rem 0 0; }
+    /* inline image row (multiple images side by side) */
+    .modal-img-row { margin-top: 2rem; }
+    .modal-img-row-label { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .modal-img-row-grid { display: grid; gap: 3px; }
+    .modal-img-row-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .modal-img-row-grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; filter: brightness(0.85); transition: filter 0.3s; }
+    .modal-img-row-grid img:hover { filter: brightness(1); }
+    /* jenga reference */
+    .jenga-ref { display: flex; align-items: center; gap: 0.85rem; margin: 1.25rem 0; padding: 0.75rem 1rem; border: 1px solid var(--border); background: var(--bg2); }
+    .jenga-ref img { width: 64px; height: 64px; object-fit: cover; flex-shrink: 0; }
+    .jenga-ref-text { display: flex; flex-direction: column; gap: 0.2rem; }
+    .jenga-ref-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .jenga-ref-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 5rem; }
+    .skill-item { padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 0.7rem; }
+    .skill-name { font-size: 0.9rem; font-weight: 500; }
+    .skill-pct { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--accent); }
+    .skill-track { height: 1.5px; background: var(--border); overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.9s cubic-bezier(0.4,0,0.2,1); }
+
+    /* CONTACT */
+    #contact { min-height: 55vh; display: flex; flex-direction: column; justify-content: center; }
+    .contact-heading { font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 2.5rem; }
+    .contact-heading span { color: var(--accent); }
+    .contact-link { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 1.05rem; font-weight: 500; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 0.2rem; transition: color 0.2s, gap 0.25s; }
+    .contact-link:hover { color: var(--accent); gap: 1.25rem; }
+    .contact-link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+    /* FOOTER */
+    footer { padding: 1.75rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-note { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
+
+    /* MODALS */
+    .modal { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.97); display: flex; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal.open { cursor: default; }
+    .modal.open { opacity: 1; pointer-events: all; }
+    .modal-close { position: absolute; top: 1.5rem; right: 2rem; z-index: 50; background: none; border: none; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+    .modal-close:hover { color: var(--accent); }
+
+    /* gallery left + panel right */
+    .modal-split { display: grid; grid-template-columns: 1fr 44%; width: 100%; height: 100%; }
+    .gal-stage { position: relative; overflow: hidden; background: #000; }
+    .gal-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 0.4s; }
+    .gal-img.active { opacity: 1; }
+    .gal-caption { position: absolute; bottom: 4.5rem; left: 1.5rem; right: 1.5rem; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); pointer-events: none; }
+    .gal-thumbs { position: absolute; bottom: 1.5rem; left: 1.5rem; display: flex; gap: 0.4rem; flex-wrap: wrap; max-width: calc(100% - 6.5rem); }
+    .gal-thumb { width: 50px; height: 38px; object-fit: cover; opacity: 0.35; cursor: pointer; border: 1px solid transparent; transition: opacity 0.2s, border-color 0.2s; }
+    .gal-thumb.active { opacity: 1; border-color: var(--accent); }
+    .gal-nav { position: absolute; bottom: 1.5rem; right: 1.5rem; display: flex; gap: 0.4rem; }
+    .gal-btn { width: 36px; height: 36px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+    .gal-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .gal-btn:hover svg { stroke: #000; }
+    .gal-btn svg { width: 13px; height: 13px; stroke: var(--text); fill: none; stroke-width: 1.5; }
+
+    /* right panel: single scrollable column */
+    .modal-panel { border-left: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+    .modal-info { padding: 4.5rem 2.5rem 2rem; }
+    /* numbered steps + diagram */
+    .modal-steps { margin-top: 2rem; }
+    .modal-steps-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+    .modal-diagram-wrap { position: relative; width: 100%; margin-bottom: 1.1rem; }
+    .modal-diagram-wrap img { width: 100%; display: block; border: 1px solid var(--border); }
+    .diag-num { position: absolute; transform: translate(-50%, -50%); width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #000; font-family: 'Space Mono', monospace; font-size: 0.55rem; font-weight: 700; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .modal-steps-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .modal-steps-list li { display: flex; gap: 0.85rem; font-size: 0.875rem; color: var(--muted); line-height: 1.6; font-weight: 600; }
+    .modal-steps-list li::before { content: attr(data-n); font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); min-width: 1.2rem; padding-top: 0.15rem; }
+    .modal-num { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.85rem; }
+    .modal-title { font-size: clamp(1.5rem, 2vw, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.35rem; }
+    .modal-loc { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 2rem; font-weight: 600; }
+    .modal-desc { color: var(--text); font-size: 1rem; line-height: 1.85; margin-bottom: 1.1rem; opacity: 0.9; font-weight: 500; }
+    .modal-storyboard { margin-top: 2rem; }
+    .modal-storyboard-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .modal-storyboard img { width: 100%; display: block; border: 1px solid var(--border); }
+    .modal-tags { padding-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .modal-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(232,255,71,0.22); padding: 0.25rem 0.6rem; }
+
+    .tl-row { display: flex; position: relative; }
+    .tl-row::after { content: ''; position: absolute; bottom: 2.15rem; left: calc(100%/6); right: calc(100%/6); height: 1px; background: rgba(232,255,71,0.3); pointer-events: none; }
+    .tl-col { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 2px; }
+    .tl-img { width: 100%; overflow: hidden; background: #000; }
+    .tl-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; filter: brightness(0.8); transition: filter 0.3s; }
+    .tl-img img:hover { filter: brightness(1); }
+    .tl-marker { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; margin-top: 0.6rem; }
+    .tl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    .tl-year { font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--text); letter-spacing: 0.08em; }
+
+    /* MM plans grid with labels */
+    .mm-plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 0.75rem; }
+    .mm-plan { display: flex; flex-direction: column; }
+    .mm-plan img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #0d0d0d; display: block; filter: brightness(0.9); transition: filter 0.3s; }
+    .mm-plan img:hover { filter: brightness(1); }
+    .mm-plan span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0.3rem 0 0; }
+
+    /* MM manifesto + image side by side */
+    .mm-manifesto { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-top: 1.75rem; }
+    .mm-manifesto-text .modal-desc { margin-top: 0; margin-bottom: 1.1rem; }
+    .mm-manifesto-img { width: 65%; max-height: 38vh; object-fit: contain; display: block; margin: 0 auto; }
+
+    /* MM Meat Builder */
+    .mm-builder { margin-top: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    /* Top: statement on left, columns on right */
+    .mm-builder-top { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
+    .mm-builder-statement { font-family: 'Space Mono', monospace; font-size: clamp(1.1rem, 2vw, 1.65rem); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.45; color: var(--text); margin-bottom: 0.6rem; }
+    .mm-builder-sub { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted); font-style: italic; }
+    /* Category rows — label + fixed-size options horizontally */
+    .mm-builder-cats { display: flex; flex-direction: column; gap: 0.4rem; }
+    .mm-builder-cat-row { display: flex; align-items: center; gap: 0.4rem; }
+    .mm-builder-col-label { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); width: 2.5rem; flex-shrink: 0; }
+    .mm-builder-opt { width: 96px; height: 96px; flex-shrink: 0; object-fit: contain; background: #0a0a0a; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.2s, filter 0.2s, transform 0.2s; filter: brightness(0.7); display: block; }
+    .mm-builder-opt:hover { filter: brightness(1); transform: scale(1.06); }
+    .mm-builder-opt.sel { border-color: var(--accent); filter: brightness(1); }
+    /* Bottom combination — horizontal, bigger */
+    .mm-builder-combo { display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .mm-builder-combo-img { width: 165px; height: 165px; object-fit: contain; background: #0a0a0a; border: 1.5px solid var(--accent); flex-shrink: 0; }
+    .mm-builder-combo-sign { font-family: 'Space Mono', monospace; font-size: 2.4rem; color: var(--accent); }
+    .mm-builder-combo-q { width: 165px; height: 165px; background: #0a0a0a; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 3rem; color: var(--muted); flex-shrink: 0; }
+
+    /* Eating Meat / Eating Space */
+    .mm-eating { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .mm-eating-title { font-family: 'Space Mono', monospace; font-size: clamp(1.1rem, 2vw, 1.6rem); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+    .mm-eating-sub { font-family: 'Space Mono', monospace; font-size: 0.88rem; color: var(--text); opacity: 0.75; margin-bottom: 1.25rem; letter-spacing: 0.04em; }
+    .mm-eating-heading { font-family: 'Space Mono', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 0.5rem; }
+    .mm-eating-rule { border: none; border-top: 1px solid var(--border); margin-bottom: 0.9rem; }
+    /* Organism */
+    .mm-organism-wrap { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+    .mm-organism-img { width: 42%; object-fit: contain; display: block; flex-shrink: 0; }
+    .mm-organism-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); line-height: 1.5; flex-shrink: 0; width: 75px; text-transform: uppercase; font-weight: 700; }
+    .mm-organism-label-left { align-self: flex-end; padding-bottom: 1rem; }
+    .mm-organism-label-right { align-self: flex-start; padding-top: 1rem; text-align: right; }
+    /* Machines */
+    .mm-machines { margin-top: 1.25rem; }
+    .mm-machines-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .mm-machine { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+    .mm-machine img { width: 100%; max-height: 110px; object-fit: contain; filter: brightness(0.85); transition: filter 0.3s; }
+    .mm-machine img:hover { filter: brightness(1); }
+    .mm-machine span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: center; font-weight: 700; }
+    /* Bottom statement */
+    .mm-eating-statement { font-family: 'Space Mono', monospace; font-size: clamp(0.7rem, 1.1vw, 0.88rem); text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.65; color: var(--text); text-align: center; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+
+    /* Zoom lightbox */
+    .mm-lb { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,0.96); opacity: 0; pointer-events: none; transition: opacity 0.22s; }
+    .mm-lb.open { opacity: 1; pointer-events: all; }
+    .mm-lb-inner { width: 100%; height: 100%; overflow: hidden; cursor: grab; position: relative; }
+    .mm-lb-inner.grabbing { cursor: grabbing; }
+    .mm-lb-img { position: absolute; top: 50%; left: 50%; max-width: 92vw; max-height: 88vh; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+    .mm-lb-bar { position: absolute; top: 1.5rem; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; pointer-events: none; z-index: 10; }
+    .mm-lb-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .mm-lb-close { pointer-events: none; background: none; border: none; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+    .mm-lb.open .mm-lb-close { pointer-events: all; }
+    .mm-lb-close:hover { color: var(--accent); }
+    .mm-lb-close svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+    .mm-lb-ctrls { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.4rem; z-index: 10; }
+    .mm-lb-btn { width: 38px; height: 38px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.13); cursor: pointer; color: var(--text); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; }
+    .mm-lb-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+    .mm-lb-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); cursor: pointer; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+    .mm-lb-nav:hover { background: var(--accent); border-color: var(--accent); }
+    .mm-lb-nav:hover svg { stroke: #000; }
+    .mm-lb-nav svg { width: 16px; height: 16px; stroke: var(--text); fill: none; stroke-width: 1.5; }
+    .mm-lb-nav-prev { left: 1.5rem; }
+    .mm-lb-nav-next { right: 1.5rem; }
+    /* Make carousel slides feel clickable */
+    .mm-car-slide.active { cursor: zoom-in; }
+
+    /* MM diagram carousel */
+    .mm-car { position: relative; background: #000; width: 100%; overflow: hidden; margin-top: 0.75rem; }
+    .mm-car-slide { display: none; align-items: center; justify-content: center; min-height: 320px; }
+    .mm-car-slide.active { display: flex; }
+    .mm-car-slide img { max-width: 100%; max-height: 60vh; object-fit: contain; display: block; }
+    .mm-car-bar { display: flex; align-items: center; justify-content: space-between; padding-top: 0.75rem; }
+    .mm-car-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--text); }
+    .mm-car-count { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); font-weight: 700; }
+    .mm-car-btns  { display: flex; gap: 0.4rem; }
+    .mm-car-btn   { width: 36px; height: 36px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+    .mm-car-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .mm-car-btn:hover svg { stroke: #000; }
+    .mm-car-btn svg { width: 13px; height: 13px; stroke: var(--text); fill: none; stroke-width: 1.5; }
+
+    /* Building cursor for architecture section */
+    #projects { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Crect x='2' y='33' width='32' height='2' rx='1' fill='%23e8ff47'/%3E%3Crect x='13' y='5' width='10' height='28' fill='%23e8ff47'/%3E%3Crect x='6' y='14' width='9' height='19' fill='%23e8ff47'/%3E%3Crect x='21' y='14' width='9' height='19' fill='%23e8ff47'/%3E%3Crect x='15' y='8' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='19' y='8' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='15' y='13' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='19' y='13' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='15' y='18' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='19' y='18' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='8' y='17' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='25' y='17' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='8' y='22' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='25' y='22' width='3' height='3' rx='.4' fill='%230c0c0c'/%3E%3Crect x='15' y='26' width='6' height='7' rx='.4' fill='%230c0c0c'/%3E%3C/svg%3E") 18 18, pointer; }
+    #projects * { cursor: inherit; }
+
+    /* GAMES SECTION */
+    #games { padding: 7rem 4rem; border-top: 1px solid var(--border); cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cellipse cx='9' cy='25' rx='5' ry='3.5' fill='%23e8ff47'/%3E%3Cellipse cx='27' cy='25' rx='5' ry='3.5' fill='%23e8ff47'/%3E%3Crect x='4' y='12' width='28' height='15' rx='7' fill='%23e8ff47'/%3E%3Crect x='8' y='16.5' width='7' height='2.5' rx='.8' fill='%230c0c0c'/%3E%3Crect x='10.5' y='14' width='2.5' height='7' rx='.8' fill='%230c0c0c'/%3E%3Ccircle cx='25' cy='15' r='1.5' fill='%230c0c0c'/%3E%3Ccircle cx='28.5' cy='18' r='1.5' fill='%230c0c0c'/%3E%3Ccircle cx='25' cy='21' r='1.5' fill='%230c0c0c'/%3E%3Ccircle cx='21.5' cy='18' r='1.5' fill='%230c0c0c'/%3E%3Crect x='16' y='17' width='2' height='2' rx='.5' fill='%230c0c0c' opacity='.6'/%3E%3Crect x='19' y='17' width='2' height='2' rx='.5' fill='%230c0c0c' opacity='.6'/%3E%3C/svg%3E") 18 18, pointer; }
+    #games .game-card { cursor: inherit; }
+    .games-intro { max-width: 480px; margin-bottom: 3.5rem; }
+    .games-sub { font-size: 1rem; color: var(--muted); line-height: 1.75; font-weight: 500; margin-top: 0.5rem; }
+    .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    /* Game card */
+    .game-card { position: relative; overflow: hidden; cursor: pointer; background: var(--bg2); border: 1px solid var(--border); aspect-ratio: 4/3; display: flex; flex-direction: column; justify-content: flex-end; transition: border-color 0.35s, box-shadow 0.35s; }
+    .game-card:hover { border-color: rgba(232,255,71,0.45); box-shadow: 0 0 35px rgba(232,255,71,0.18), 0 0 70px rgba(232,255,71,0.07); }
+
+    /* Placeholder fill */
+    .game-card-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .game-card-num { font-family: 'Space Mono', monospace; font-size: clamp(4rem, 10vw, 8rem); font-weight: 700; color: rgba(232,255,71,0.06); line-height: 1; user-select: none; transition: color 0.4s; }
+    .game-card:hover .game-card-num { color: rgba(232,255,71,0.12); }
+
+    /* Scanline overlay for playful feel */
+    .game-card::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px); pointer-events: none; z-index: 1; }
+
+    /* Info overlay */
+    .game-card-info { position: relative; z-index: 2; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%); }
+    .game-card-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .game-card-title { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; color: var(--text); }
+    .game-card-genre { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--muted); margin-top: 0.25rem; letter-spacing: 0.06em; font-weight: 600; }
+
+    /* Play icon on hover */
+    .game-card-play { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 2; width: 36px; height: 36px; border: 1px solid rgba(232,255,71,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.8); transition: opacity 0.3s, transform 0.3s; }
+    .game-card-play svg { width: 12px; height: 12px; fill: var(--accent); }
+    .game-card:hover .game-card-play { opacity: 1; transform: scale(1); }
+
+    /* Game modal play button */
+    .game-play-link { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 2rem; padding: 0.85rem 1.75rem; background: var(--accent); color: #000; font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, gap 0.2s; }
+    .game-play-link:hover { background: #fff; gap: 1.1rem; }
+    .game-play-link svg { width: 12px; height: 12px; fill: #000; flex-shrink: 0; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.75rem; } .nav-links { display: none; }
+      section { padding: 5rem 1.75rem; } #hero { padding: 0 1.75rem 4rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-photo-wrap { max-width: 160px; }
+      .about-photo-wrap::after { display: none; }
+      .projects-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .skills-grid { grid-template-columns: 1fr; gap: 0; }
+      .modal-split { grid-template-columns: 1fr; grid-template-rows: 50vw 1fr; }
+      .modal-panel { grid-template-rows: 1fr auto; }
+      .modal-info { padding: 2rem 1.5rem 1rem; }
+      .modal-timeline { padding: 1.25rem 1.5rem 1.75rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+
+      /* MM modal has no gallery — let the panel fill full height */
+      #modal-mm .modal-split { grid-template-rows: 1fr; }
+
+      /* MM builder — stack + shrink on mobile */
+      .mm-manifesto { grid-template-columns: 1fr; }
+      .mm-manifesto-img { width: 50%; margin: 0 auto; }
+      .mm-builder-top { grid-template-columns: 1fr; gap: 1rem; }
+      .mm-builder-opt { width: 52px; height: 52px; }
+      .mm-builder-col-label { width: 1.8rem; font-size: 0.5rem; }
+      .mm-builder-cat-row { gap: 0.25rem; }
+      .mm-builder-combo { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+      .mm-builder-combo-img { width: 65px; height: 65px; }
+      .mm-builder-combo-sign { font-size: 1.1rem; }
+      .mm-builder-combo-q { width: 65px; height: 65px; font-size: 1.5rem; }
+
+      /* Project card titles — always visible on mobile */
+      .project-card-info { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%); padding: 1rem; }
+      .project-title { font-size: 0.95rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.15rem; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+      .project-num { font-size: 0.6rem; margin-bottom: 0.25rem; }
+      .project-loc { font-size: 0.58rem; color: rgba(255,255,255,0.65); font-weight: 600; }
+
+      /* Game card titles on mobile */
+      .game-card-title { font-size: 1rem; line-height: 1.2; }
+      .game-card-info { padding: 1rem; }
+      .games-grid { grid-template-columns: 1fr; gap: 1rem; }
+      #games { padding: 5rem 1.75rem; }
+
+      /* Double card full width on mobile */
+      .project-card--double { grid-column: 1 / -1; }
+
+      /* Hero font mobile */
+      .hero-name { font-size: clamp(3rem, 15vw, 5rem); }
+    }
+
+    @media (max-width: 480px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card--double { grid-column: 1; }
+      .project-title { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Lea Mouawad</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <p class="hero-tag">Architect &amp; Immersive Experience Designer</p>
+  <h1 class="hero-name"><span style="color:#fff;font-weight:500;">Lea</span><br><span style="color:var(--muted);font-weight:700;">MOUAWAD</span></h1>
+  <p class="hero-sub">Designing spaces that move — from kinetic architectural systems to immersive digital environments. Based in Paris.</p>
+</section>
+
+<section id="about">
+  <p class="section-label">About</p>
+  <div class="about-grid">
+
+    <!-- photo -->
+    <div>
+      <div class="about-photo-wrap">
+        <span class="about-hello">Hello there! 👋</span>
+        <img src="profilepicture.png" alt="Lea Mouawad">
+      </div>
+    </div>
+
+    <!-- text -->
+    <div>
+      <h2 class="about-heading">Architecture<br>as <em>experience</em></h2>
+
+      <p class="about-text">Lea Mouawad is an architect and immersive experience designer whose work sits at the intersection of architecture, storytelling, and emerging media.</p>
+      <p class="about-text">Born in Lebanon and based in Paris, she creates environments that shape how people perceive, navigate, and emotionally connect with space. Her projects range from architecture and interior design to immersive installations and digital worlds, united by a common ambition: transforming space into experience.</p>
+      <p class="about-text">Rather than viewing architecture as a static object, she approaches it as a narrative framework — one that guides movement, influences emotion, and reveals stories through exploration.</p>
+      <p class="about-text">Her practice is driven by a simple question:<br><em style="color:var(--text);font-style:normal;font-weight:500;">What does a space make us feel?</em><br>The answer becomes the foundation of every project she creates.</p>
+
+      <div class="about-edu">
+        <div class="edu-card">
+          <p class="edu-degree">Mastère Spécialisé® in Interactive Digital Experiences</p>
+          <p class="edu-school">Les Gobelins, Paris</p>
+          <p class="edu-mention">Mention Excellent — With Distinction</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-degree">Master of Architecture</p>
+          <p class="edu-school">Lebanese Academy of Fine Arts (ALBA), Beirut</p>
+          <p class="edu-mention">Mention Très Bien — With High Honours</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label">Selected Work</p>
+  <div class="projects-grid">
+    <div class="project-card" onclick="openModal('pool')" role="button" tabindex="0">
+      <img src="pool_render_thumbnail.png" alt="Neighbourhood Swimming Pool">
+      <div class="project-card-info">
+        <span class="project-num">01</span>
+        <h3 class="project-title">Neighbourhood Swimming Pool</h3>
+        <p class="project-loc">Beirut, Lebanon</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+    <div class="project-card" onclick="openModal('museum')" role="button" tabindex="0">
+      <img src="museum_thumbnail.jpg" alt="Design Museum">
+      <div class="project-card-info">
+        <span class="project-num">02</span>
+        <h3 class="project-title">Design Museum</h3>
+        <p class="project-loc">Beirut, Lebanon</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+    <div class="project-card" onclick="openModal('school')" role="button" tabindex="0">
+      <img src="School_Thumbnail.jpg" alt="Primary School">
+      <div class="project-card-info">
+        <span class="project-num">03</span>
+        <h3 class="project-title">Primary School</h3>
+        <p class="project-loc">Beirut, Lebanon — USJ Huvelin</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+    <div class="project-card" onclick="openModal('dubai')" role="button" tabindex="0">
+      <img src="dubai_thumbnail.png" alt="Multi-Comfort Residence">
+      <div class="project-card-info">
+        <span class="project-num">04</span>
+        <h3 class="project-title">Multi-Comfort Residence</h3>
+        <p class="project-loc">Dubai, UAE</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+    <div class="project-card" onclick="openModal('rubik')" role="button" tabindex="0">
+      <img src="rubik_thumbnail.png" alt="RUBIK">
+      <div class="project-card-info">
+        <span class="project-num">05</span>
+        <h3 class="project-title">RUBIK</h3>
+        <p class="project-loc">Conceptual Project</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+    <div class="project-card" onclick="openModal('room')" role="button" tabindex="0">
+      <img src="room_thumbnail.png" alt="ROOM">
+      <div class="project-card-info">
+        <span class="project-num">06</span>
+        <h3 class="project-title">ROOM</h3>
+        <p class="project-loc">Digital Sculpture Series</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+    <div class="project-card" onclick="openModal('cemetery')" role="button" tabindex="0">
+      <img src="cemetery_thumbnail.jpg" alt="Landscape of the Dead">
+      <div class="project-card-info">
+        <span class="project-num">08</span>
+        <h3 class="project-title">Landscape of the Dead</h3>
+        <p class="project-loc">Virtual Cemetery</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+    <div class="project-card project-card--double" onclick="openModal('mm')" role="button" tabindex="0">
+      <img src="mm/mm_thumbnail.png" alt="MeatMaker V">
+      <div class="project-card-info">
+        <span class="project-num">12</span>
+        <h3 class="project-title">MeatMaker V</h3>
+        <p class="project-loc">Zahle, Lebanon — Master's Project</p>
+      </div>
+      <div class="project-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="games">
+  <p class="section-label">Games</p>
+  <div class="games-intro">
+    <p class="games-sub">On the side, I design levels and build games — from narrative experiences to open-world explorations.</p>
+  </div>
+  <div class="games-grid">
+
+    <div class="game-card" role="button" tabindex="0" onclick="openModal('nour')">
+      <img src="nour_thumbnail.png" alt="Nour" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.65s ease;">
+      <div class="game-card-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="game-card-info">
+        <p class="game-card-label">Game — 01</p>
+        <h3 class="game-card-title">Nour</h3>
+        <p class="game-card-genre">Narrative Exploration</p>
+      </div>
+    </div>
+
+    <div class="game-card" role="button" tabindex="0" onclick="openModal('cg')">
+      <img src="chasinggoodbyes_thumbnail.png" alt="Chasing Goodbyes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.65s ease;">
+      <div class="game-card-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="game-card-info">
+        <p class="game-card-label">Game — 02</p>
+        <h3 class="game-card-title">Chasing<br>Goodbyes</h3>
+        <p class="game-card-genre">Runner / Narrative</p>
+      </div>
+    </div>
+
+    <div class="game-card" role="button" tabindex="0" onclick="openModal('rouelibre')">
+      <img src="timmy_thumbnail.png" alt="Roue Libre" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.65s ease;">
+      <div class="game-card-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="game-card-info">
+        <p class="game-card-label">Game — 03</p>
+        <h3 class="game-card-title">Roue<br>Libre</h3>
+        <p class="game-card-genre">Runner / City</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2 class="contact-heading">Let's build<br><span>something.</span></h2>
+  <a href="mailto:leamariamouawad@hotmail.com" class="contact-link">
+    leamariamouawad@hotmail.com
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+  </a>
+</section>
+
+<footer>
+  <p class="footer-note">© 2026 Lea Mouawad</p>
+  <p class="footer-note">Architect &amp; Immersive Experience Designer — Paris</p>
+</footer>
+
+
+<!-- MODAL: POOL -->
+<div class="modal" id="modal-pool" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('pool')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+    <div class="gal-stage" id="gal-pool">
+      <img class="gal-img active" src="pool_render_thumbnail.png" alt="Render"          data-caption="Exterior Render">
+      <img class="gal-img"        src="pool_states2.png"        alt="Closed vs Open"  data-caption="Structure: Closed (left) vs Open (right)">
+      <img class="gal-img"        src="ventilation.png"         alt="Ventilation"     data-caption="Ventilation: Closed vs Open">
+      <img class="gal-img"        src="detailed section.png"    alt="Detailed section" data-caption="Section — Close-Up Details">
+      <div class="gal-caption" id="caption-pool"></div>
+      <div class="gal-thumbs" id="thumbs-pool"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('pool')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('pool')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">01 / Architecture</p>
+        <h2 class="modal-title">Neighbourhood<br>Swimming Pool</h2>
+        <p class="modal-loc">Beirut, Lebanon — Architectural Design</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Kinetic Architecture</span>
+          <span class="modal-tag">Parametric Design</span>
+          <span class="modal-tag">Civic Infrastructure</span>
+          <span class="modal-tag">Rhino + Grasshopper</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">The design translates the fluid, rhythmic movement of swimmers into an architectural expression overhead. The kinetic roof is composed of panels that shift, rotate, and fold in programmed sequences — a canopy that mirrors the bodies moving beneath it.</p>
+        <p class="modal-desc">As swimmers move through lanes below, the structure responds: opening to flood the pool with natural light during peak hours, folding inward to create sheltered microclimates at the edges, cycling through ventilation states throughout the day.</p>
+        <p class="modal-desc">The neighbourhood pool is reimagined not as a static vessel but as a civic machine in constant, gentle motion — tuned to human rhythm.</p>
+
+        <div class="modal-storyboard">
+          <p class="modal-storyboard-label">Movement Storyboard</p>
+          <img src="pool_storyboard.png" alt="Pool movement storyboard">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: MUSEUM -->
+<div class="modal" id="modal-museum" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('museum')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-museum">
+      <img class="gal-img active" src="museum_thumbnail.jpg" alt="Design Museum" data-caption="Design Museum — Beirut">
+      <div class="gal-caption" id="caption-museum"></div>
+      <div class="gal-thumbs" id="thumbs-museum"></div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">02 / Architecture</p>
+        <h2 class="modal-title">Design<br>Museum</h2>
+        <p class="modal-loc">Beirut, Lebanon — Cultural Architecture</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Cultural Architecture</span>
+          <span class="modal-tag">Adaptive Facade</span>
+          <span class="modal-tag">Museum Design</span>
+          <span class="modal-tag">Beirut</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">The Design Museum proposes a building skin that refuses to stay fixed. The facade is composed of layered, repositionable panels that shift configuration throughout the day — changing the visual character and porosity of the structure in response to light, programme, and season.</p>
+        <p class="modal-desc">At dawn the museum reads as a dense, tactile mass. By midday panels open into a lattice of shadow and air. At dusk the surface catches and fragments the last light, dissolving into an almost immaterial screen.</p>
+
+        <div class="modal-steps">
+          <p class="modal-steps-label">Conceptual Diagram</p>
+          <div class="modal-diagram-wrap">
+            <img src="museum_conceptual_diagram.jpg" alt="Conceptual diagram">
+            <!-- top row: circles in the black gap below the top panels -->
+            <span class="diag-num" style="top:44%;left:9%">01</span>
+            <span class="diag-num" style="top:44%;left:42%">02</span>
+            <span class="diag-num" style="top:44%;left:75%">03</span>
+            <!-- bottom row: circles near the bottom of the bottom panels -->
+            <span class="diag-num" style="top:88%;left:9%">04</span>
+            <span class="diag-num" style="top:88%;left:42%">05</span>
+            <span class="diag-num" style="top:88%;left:75%">06</span>
+          </div>
+          <ol class="modal-steps-list">
+            <li data-n="01">Point distribution — structural anchor points placed across the base plane.</li>
+            <li data-n="02">Vertical extrusion — elements rise from each anchor point, defining the building's skeleton.</li>
+            <li data-n="03">Articulation — elements begin to bend and curve in response to wind and programme forces.</li>
+            <li data-n="04">Structural branching — elements develop into an organic, interconnected network.</li>
+            <li data-n="05">Material layering — coloured facade panels are threaded through the structure.</li>
+            <li data-n="06">Final facade — the building enclosed, the metamorphic skin fully resolved.</li>
+          </ol>
+        </div>
+
+        <div class="modal-storyboard">
+          <p class="modal-storyboard-label">Facade Evolution</p>
+          <div class="tl-row">
+            <div class="tl-col">
+              <div class="tl-img"><img src="museum/2000.png" alt="2000"></div>
+              <div class="tl-marker"><div class="tl-dot"></div><span class="tl-year">2000</span></div>
+            </div>
+            <div class="tl-col">
+              <div class="tl-img"><img src="museum/2020.png" alt="2020"></div>
+              <div class="tl-marker"><div class="tl-dot"></div><span class="tl-year">2020</span></div>
+            </div>
+            <div class="tl-col">
+              <div class="tl-img"><img src="museum/2040.jpg" alt="2040"></div>
+              <div class="tl-marker"><div class="tl-dot"></div><span class="tl-year">2040</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: MEATMAKER V -->
+<div class="modal" id="modal-mm" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('mm')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split" style="grid-template-columns: 1fr;">
+
+    <!-- full-width panel -->
+    <div class="modal-panel" style="border-left:none;">
+      <div class="modal-info">
+        <div class="mm-manifesto">
+          <!-- Left: all title + text -->
+          <div>
+            <p class="modal-num">12 / Architecture — Master's Project</p>
+            <h2 class="modal-title">MeatMaker V</h2>
+            <p class="modal-loc">Zahle, Lebanon — Industrial / Agricultural Zone</p>
+            <div class="modal-tags">
+              <span class="modal-tag">NGO / Manifesto</span>
+              <span class="modal-tag">Adaptive Reuse</span>
+              <span class="modal-tag">Sustainability</span>
+              <span class="modal-tag">Rhino + Zbrush + Unreal Engine + Photoshop</span>
+            </div>
+            <p class="modal-desc" style="margin-top:1.75rem;">At MeatMaker V, we are driven by the belief that a superior approach exists to nourish the world. Our ultimate goal is to shape the forthcoming era of protein by crafting meat from plants. Our NGO aims to transpose the meat-eating society to a meat-free society.</p>
+          </div>
+          <!-- Right: mm_meat image aligned to top -->
+          <img src="mm/mm_meat.png" alt="MeatMaker V" class="mm-manifesto-img">
+        </div>
+
+        <!-- MEAT BUILDER -->
+        <div class="mm-builder">
+
+          <!-- Statement + columns side by side -->
+          <div class="mm-builder-top">
+            <div>
+              <p class="mm-builder-statement">By rethinking what meat is,<br>we open ourselves to endless possibilities.<br><span style="color:var(--muted);font-style:italic;">So how do you like your meat?</span></p>
+            </div>
+            <div class="mm-builder-cats">
+              <div class="mm-builder-cat-row" id="mmrow-fiber">
+                <span class="mm-builder-col-label">Fiber</span>
+                <img class="mm-builder-opt sel" src="mm/FIBER 1.png" alt="" onclick="mmPick('fiber',this)">
+                <img class="mm-builder-opt"     src="mm/FIBER 2.png" alt="" onclick="mmPick('fiber',this)">
+                <img class="mm-builder-opt"     src="mm/FIBER 3.png" alt="" onclick="mmPick('fiber',this)">
+                <img class="mm-builder-opt"     src="mm/FIBER 4.png" alt="" onclick="mmPick('fiber',this)">
+                <img class="mm-builder-opt"     src="mm/FIBER 5.png" alt="" onclick="mmPick('fiber',this)">
+              </div>
+              <div class="mm-builder-cat-row" id="mmrow-bone">
+                <span class="mm-builder-col-label">Bone</span>
+                <img class="mm-builder-opt sel" src="mm/BONE 1.2319.png" alt="" onclick="mmPick('bone',this)">
+                <img class="mm-builder-opt"     src="mm/BONE 2.2321.png" alt="" onclick="mmPick('bone',this)">
+                <img class="mm-builder-opt"     src="mm/BONE 2.2322.png" alt="" onclick="mmPick('bone',this)">
+                <img class="mm-builder-opt"     src="mm/BONE 2.2323.png" alt="" onclick="mmPick('bone',this)">
+                <img class="mm-builder-opt"     src="mm/BONE 2.2326.png" alt="" onclick="mmPick('bone',this)">
+              </div>
+              <div class="mm-builder-cat-row" id="mmrow-skin">
+                <span class="mm-builder-col-label">Skin</span>
+                <img class="mm-builder-opt sel" src="mm/texture 1.png" alt="" onclick="mmPick('skin',this)">
+                <img class="mm-builder-opt"     src="mm/texture 2.png" alt="" onclick="mmPick('skin',this)">
+                <img class="mm-builder-opt"     src="mm/texture 3.png" alt="" onclick="mmPick('skin',this)">
+                <img class="mm-builder-opt"     src="mm/texture 4.png" alt="" onclick="mmPick('skin',this)">
+                <img class="mm-builder-opt"     src="mm/texture 5.png" alt="" onclick="mmPick('skin',this)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Combination below — horizontal, bigger -->
+          <div class="mm-builder-combo">
+            <img class="mm-builder-combo-img" id="mmsel-fiber" src="mm/FIBER 1.png" alt="">
+            <span class="mm-builder-combo-sign">+</span>
+            <img class="mm-builder-combo-img" id="mmsel-bone" src="mm/BONE 1.2319.png" alt="">
+            <span class="mm-builder-combo-sign">+</span>
+            <img class="mm-builder-combo-img" id="mmsel-skin" src="mm/texture 1.png" alt="">
+            <span class="mm-builder-combo-sign">=</span>
+            <div class="mm-builder-combo-q">?</div>
+          </div>
+
+        </div>
+
+        <!-- EATING MEAT / EATING SPACE -->
+        <div class="mm-eating">
+          <p class="mm-eating-title">Eating Meat / Eating Space</p>
+          <p class="mm-eating-sub">The Factory is built the same way you build your meat</p>
+
+          <!-- THE ORGANISM -->
+          <p class="mm-eating-heading">The Organism</p>
+          <hr class="mm-eating-rule">
+          <div class="mm-organism-wrap">
+            <span class="mm-organism-label mm-organism-label-left">Experimental<br>Tower</span>
+            <img src="mm/mm_organism.png" alt="The Organism" class="mm-organism-img">
+            <span class="mm-organism-label mm-organism-label-right">Mother<br>Entity</span>
+          </div>
+
+          <!-- THE MACHINES -->
+          <div class="mm-machines">
+            <p class="mm-eating-heading">The Machines</p>
+            <hr class="mm-eating-rule">
+            <div class="mm-machines-grid">
+              <div class="mm-machine">
+                <img src="mm/mm_machines_receiver.png" alt="Receiver">
+                <span>Receiver</span>
+              </div>
+              <div class="mm-machine">
+                <img src="mm/mm_machines_connector.png" alt="Connector">
+                <span>Connector</span>
+              </div>
+              <div class="mm-machine">
+                <img src="mm/mm_machines_silos.png" alt="Silos">
+                <span>Silos</span>
+              </div>
+              <div class="mm-machine">
+                <img src="mm/mm_machines_factory.png" alt="Factory">
+                <span>Factory</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="mm-eating-statement">The Organism like V. Meat is here to serve us,<br>completed by the Machine to become MeatMaker Converter (MMC)</p>
+        </div>
+
+        <!-- PROCESS -->
+        <div class="modal-img-row">
+          <p class="modal-img-row-label">Process — Diagrams</p>
+          <div class="mm-car" id="mm-diag-car">
+            <div class="mm-car-slide active" data-name="Program Diagram"><img src="mm/mm_DIAG PROGRAM.png" alt="Program"></div>
+            <div class="mm-car-slide" data-name="Zoning Diagram"><img src="mm/mm_DIAG ZONING.png" alt="Zoning"></div>
+            <div class="mm-car-slide" data-name="Circulation Diagram"><img src="mm/mm_DIAG CIRCULATION.png" alt="Circulation"></div>
+          </div>
+          <div class="mm-car-bar">
+            <span class="mm-car-label" id="mm-diag-name">Program Diagram</span>
+            <span class="mm-car-count" id="mm-diag-cnt">01 / 03</span>
+            <div class="mm-car-btns">
+              <button class="mm-car-btn" onclick="mmDiagGo(-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+              <button class="mm-car-btn" onclick="mmDiagGo(1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLANS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Plans</p>
+          <div class="mm-car" id="mm-plans-car">
+            <div class="mm-car-slide active" data-name="Underground 2" onclick="mmLbOpen('mm/mm_-2.jpg','Underground 2','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_-2.jpg"  alt="Underground 2"></div>
+            <div class="mm-car-slide" data-name="Underground 1" onclick="mmLbOpen('mm/mm_-1.JPG','Underground 1','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_-1.JPG"  alt="Underground 1"></div>
+            <div class="mm-car-slide" data-name="Ground Floor" onclick="mmLbOpen('mm/mm_gf.jpg','Ground Floor','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_gf.jpg"  alt="Ground Floor"></div>
+            <div class="mm-car-slide" data-name="Floor + 1" onclick="mmLbOpen('mm/mm_+1.jpg','Floor + 1','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_+1.jpg"  alt="+1"></div>
+            <div class="mm-car-slide" data-name="Floor + 2" onclick="mmLbOpen('mm/mm_+2.jpg','Floor + 2','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_+2.jpg"  alt="+2"></div>
+            <div class="mm-car-slide" data-name="Floor + 3" onclick="mmLbOpen('mm/mm_+3.jpg','Floor + 3','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_+3.jpg"  alt="+3"></div>
+            <div class="mm-car-slide" data-name="Floor + 4" onclick="mmLbOpen('mm/mm_+4.jpg','Floor + 4','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_+4.jpg"  alt="+4"></div>
+            <div class="mm-car-slide" data-name="Floor + 5" onclick="mmLbOpen('mm/mm_+5.jpg','Floor + 5','mm-plans-car','mm-plans-name','mm-plans-cnt')"><img src="mm/mm_+5.jpg"  alt="+5"></div>
+          </div>
+          <div class="mm-car-bar">
+            <span class="mm-car-label" id="mm-plans-name">Underground 2</span>
+            <span class="mm-car-count" id="mm-plans-cnt">01 / 08</span>
+            <div class="mm-car-btns">
+              <button class="mm-car-btn" onclick="mmCarGo('mm-plans-car','mm-plans-name','mm-plans-cnt',-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+              <button class="mm-car-btn" onclick="mmCarGo('mm-plans-car','mm-plans-name','mm-plans-cnt',1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTIONS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Sections</p>
+          <div class="mm-car" id="mm-sects-car">
+            <div class="mm-car-slide active" data-name="Section 01" onclick="mmLbOpen('mm/mm_section1.JPG','Section 01','mm-sects-car','mm-sects-name','mm-sects-cnt')"><img src="mm/mm_section1.JPG" alt="Section 01"></div>
+            <div class="mm-car-slide" data-name="Section 02" onclick="mmLbOpen('mm/mm_section2.JPG','Section 02','mm-sects-car','mm-sects-name','mm-sects-cnt')"><img src="mm/mm_section2.JPG" alt="Section 02"></div>
+            <div class="mm-car-slide" data-name="Section 03" onclick="mmLbOpen('mm/mm_section3.png','Section 03','mm-sects-car','mm-sects-name','mm-sects-cnt')"><img src="mm/mm_section3.png" alt="Section 03"></div>
+          </div>
+          <div class="mm-car-bar">
+            <span class="mm-car-label" id="mm-sects-name">Section 01</span>
+            <span class="mm-car-count" id="mm-sects-cnt">01 / 03</span>
+            <div class="mm-car-btns">
+              <button class="mm-car-btn" onclick="mmCarGo('mm-sects-car','mm-sects-name','mm-sects-cnt',-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+              <button class="mm-car-btn" onclick="mmCarGo('mm-sects-car','mm-sects-name','mm-sects-cnt',1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MMC VISUALS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">MeatMaker Converter — Visuals</p>
+          <div class="mm-car" id="mm-mmc-car">
+            <div class="mm-car-slide active" data-name="MeatMaker Converter" onclick="mmLbOpen('mm/mm_thumbnail.png','MeatMaker Converter','mm-mmc-car','mm-mmc-name','mm-mmc-cnt')"><img src="mm/mm_thumbnail.png" alt="MMC Thumbnail"></div>
+            <div class="mm-car-slide" data-name="Interior View" onclick="mmLbOpen('mm/mm_mmc_interior.png','Interior View','mm-mmc-car','mm-mmc-name','mm-mmc-cnt')"><img src="mm/mm_mmc_interior.png" alt="MMC Interior"></div>
+          </div>
+          <div class="mm-car-bar">
+            <span class="mm-car-label" id="mm-mmc-name">MeatMaker Converter</span>
+            <span class="mm-car-count" id="mm-mmc-cnt">01 / 02</span>
+            <div class="mm-car-btns">
+              <button class="mm-car-btn" onclick="mmCarGo('mm-mmc-car','mm-mmc-name','mm-mmc-cnt',-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+              <button class="mm-car-btn" onclick="mmCarGo('mm-mmc-car','mm-mmc-name','mm-mmc-cnt',1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MFF VISUALS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Meat Free Farm (MF²)</p>
+          <p class="modal-desc" style="margin-top:1rem;margin-bottom:1.5rem;">Decades later, we detoxified ourselves from meat. MeatMaker V was a transitional device, a temporary meat factory that would transpose the meat-eating society to a meat-free society. Now, it has morphed into a memorial for the lost meat culture, A Meat Free Farm. Our NGO aims to transpose the meat-eating society to a meat-free society.</p>
+          <div class="mm-car" id="mm-mff-car">
+            <div class="mm-car-slide active" data-name="Meat Free Farm"       onclick="mmLbOpen('mm/mm_mff_visuals.png', 'Meat Free Farm',       'mm-mff-car','mm-mff-name','mm-mff-cnt')"><img src="mm/mm_mff_visuals.png"  alt="MFF Visuals"></div>
+            <div class="mm-car-slide" data-name="Meat Free Farm — 01"   onclick="mmLbOpen('mm/mm_mff_visuals1.png','Meat Free Farm — 01',  'mm-mff-car','mm-mff-name','mm-mff-cnt')"><img src="mm/mm_mff_visuals1.png" alt="MFF Visuals 1"></div>
+            <div class="mm-car-slide" data-name="Meat Free Farm — 02"   onclick="mmLbOpen('mm/mm_mff_visuals2.png','Meat Free Farm — 02',  'mm-mff-car','mm-mff-name','mm-mff-cnt')"><img src="mm/mm_mff_visuals2.png" alt="MFF Visuals 2"></div>
+            <div class="mm-car-slide" data-name="Interior View — 01"    onclick="mmLbOpen('mm/mm_mff_visuals3.png','Interior View — 01',   'mm-mff-car','mm-mff-name','mm-mff-cnt')"><img src="mm/mm_mff_visuals3.png" alt="MFF Interior 1"></div>
+            <div class="mm-car-slide" data-name="Interior View — 02"    onclick="mmLbOpen('mm/mm_mff_visuals4.png','Interior View — 02',   'mm-mff-car','mm-mff-name','mm-mff-cnt')"><img src="mm/mm_mff_visuals4.png" alt="MFF Interior 2"></div>
+          </div>
+          <div class="mm-car-bar">
+            <span class="mm-car-label" id="mm-mff-name">Meat Free Farm</span>
+            <span class="mm-car-count" id="mm-mff-cnt">01 / 05</span>
+            <div class="mm-car-btns">
+              <button class="mm-car-btn" onclick="mmCarGo('mm-mff-car','mm-mff-name','mm-mff-cnt',-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+              <button class="mm-car-btn" onclick="mmCarGo('mm-mff-car','mm-mff-name','mm-mff-cnt',1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ZOOM LIGHTBOX -->
+<div class="mm-lb" id="mm-lb">
+  <div class="mm-lb-bar">
+    <span class="mm-lb-label" id="mm-lb-label"></span>
+    <button class="mm-lb-close" onclick="mmLbClose()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Close
+    </button>
+  </div>
+  <div class="mm-lb-inner" id="mm-lb-inner">
+    <img id="mm-lb-img" src="" alt="" class="mm-lb-img" draggable="false">
+  </div>
+  <button class="mm-lb-nav mm-lb-nav-prev" onclick="mmLbNav(-1)"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+  <button class="mm-lb-nav mm-lb-nav-next" onclick="mmLbNav(1)"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+  <div class="mm-lb-ctrls">
+    <button class="mm-lb-btn" onclick="mmLbZoom(0.3)">+</button>
+    <button class="mm-lb-btn" onclick="mmLbReset()" style="font-family:'Space Mono',monospace;font-size:0.65rem;width:auto;padding:0 0.9rem;">Reset</button>
+    <button class="mm-lb-btn" onclick="mmLbZoom(-0.3)">−</button>
+  </div>
+</div>
+
+<!-- MODAL: CEMETERY -->
+<div class="modal" id="modal-cemetery" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('cemetery')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-cemetery">
+      <img class="gal-img active" src="cemetery_thumbnail.jpg" alt="Landscape of the Dead"  data-caption="Landscape of the Dead">
+      <img class="gal-img"        src="cem_69.jpg"             alt="Close-Up Section 01"    data-caption="Close-Up Sections — 01">
+      <img class="gal-img"        src="cem_70.jpg"             alt="Close-Up Section 02"    data-caption="Close-Up Sections — 02">
+      <img class="gal-img"        src="cem_71.jpg"             alt="Close-Up Section 03"    data-caption="Close-Up Sections — 03">
+      <img class="gal-img"        src="cem_72.jpg"             alt="Close-Up Section 04"    data-caption="Close-Up Sections — 04">
+      <img class="gal-img"        src="cem_75.jpg"             alt="Encoded Memory 01"      data-caption="Encoded Memories — 01">
+      <img class="gal-img"        src="cem_76.jpg"             alt="Encoded Memory 02"      data-caption="Encoded Memories — 02">
+      <img class="gal-img"        src="cem_77.jpg"             alt="Encoded Memory 03"      data-caption="Encoded Memories — 03">
+      <img class="gal-img"        src="cem_78.jpg"             alt="Encoded Memory 04"      data-caption="Encoded Memories — 04">
+      <img class="gal-img"        src="cem_79.jpg"             alt="Encoded Memory 05"      data-caption="Encoded Memories — 05">
+      <img class="gal-img"        src="cem_80.jpg"             alt="Encoded Memory 06"      data-caption="Encoded Memories — 06">
+      <img class="gal-img"        src="cem_81.jpg"             alt="Encoded Memory 07"      data-caption="Encoded Memories — 07">
+      <img class="gal-img"        src="cem_82.jpg"             alt="Encoded Memory 08"      data-caption="Encoded Memories — 08">
+      <img class="gal-img"        src="cem_83.jpg"             alt="Section 01"             data-caption="Sections — 01">
+      <img class="gal-img"        src="cem_84.jpg"             alt="Section 02"             data-caption="Sections — 02">
+      <img class="gal-img"        src="cem_90.jpg"             alt="Landscape 01"           data-caption="Landscape of the Dead — 01">
+      <img class="gal-img"        src="cem_91.jpg"             alt="Landscape 02"           data-caption="Landscape of the Dead — 02">
+      <img class="gal-img"        src="cem_100.jpg"            alt="Landscape 03"           data-caption="Landscape of the Dead — 03">
+      <div class="gal-caption" id="caption-cemetery"></div>
+      <div class="gal-thumbs" id="thumbs-cemetery"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('cemetery')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('cemetery')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">08 / Installation</p>
+        <h2 class="modal-title">Landscape<br>of the Dead</h2>
+        <p class="modal-loc">Virtual Cemetery</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Data Architecture</span>
+          <span class="modal-tag">Virtual Environment</span>
+          <span class="modal-tag">Parametric Generation</span>
+          <span class="modal-tag">Rhino + Photoshop</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">Out of reach and surrounded by a strange atmosphere, identically structured tombstones stand in rows in a cold, isolated urban quarter — a cocoon of buried memories. On each stone is engraved a particular testimony: an accumulation of data, waiting to be decoded.</p>
+
+        <div class="modal-img-row">
+          <p class="modal-img-row-label">Data Collected</p>
+          <div class="modal-img-row-grid cols-4">
+            <img src="cem_18.jpg" alt="Data 18">
+            <img src="cem_19.jpg" alt="Data 19">
+            <img src="cem_20.jpg" alt="Data 20">
+            <img src="cem_21.jpg" alt="Data 21">
+          </div>
+        </div>
+
+        <div class="modal-img-row">
+          <p class="modal-img-row-label">Data Dictionary</p>
+          <div class="modal-img-row-grid cols-4">
+            <img src="cem_26.jpg" alt="Dictionary 26">
+            <img src="cem_27.jpg" alt="Dictionary 27">
+            <img src="cem_28.jpg" alt="Dictionary 28">
+            <img src="cem_29.jpg" alt="Dictionary 29">
+          </div>
+        </div>
+
+        <div class="modal-img-row">
+          <p class="modal-img-row-label">From Data to Form</p>
+          <div class="modal-img-row-grid cols-4">
+            <img src="cem_32.jpg" alt="Form 32">
+            <img src="cem_33.jpg" alt="Form 33">
+            <img src="cem_34.jpg" alt="Form 34">
+            <img src="cem_35.jpg" alt="Form 35">
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: ROOM -->
+<div class="modal" id="modal-room" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('room')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-room">
+      <img class="gal-img active" src="room_thumbnail.png" alt="ROOM" data-caption="ROOM">
+      <img class="gal-img"        src="room_1.png" alt="Posthuman Prototype 01" data-caption="Posthuman Prototype — 01">
+      <img class="gal-img"        src="room_2.png" alt="Posthuman Prototype 02" data-caption="Posthuman Prototype — 02">
+      <img class="gal-img"        src="room_3.png" alt="Posthuman Prototype 03" data-caption="Posthuman Prototype — 03">
+      <img class="gal-img"        src="room_4.png" alt="Posthuman Prototype 04" data-caption="Posthuman Prototype — 04">
+      <div class="gal-caption" id="caption-room"></div>
+      <div class="gal-thumbs" id="thumbs-room"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('room')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('room')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">06 / Digital Sculpture</p>
+        <h2 class="modal-title">ROOM</h2>
+        <p class="modal-loc">Digital Sculpture Series — Abhominal</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Digital Sculpture</span>
+          <span class="modal-tag">Posthumanism</span>
+          <span class="modal-tag">Biotechnology</span>
+          <span class="modal-tag">3ds Max + ZBrush + Keyshot</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;"><em style="font-style:italic;color:var(--text);opacity:0.6;">Abhominal</em> — an archaic word meaning inhuman — is an exploratory blog of the human form. These digital sculptures fuse abstract geometric, architectural, and biological shapes to depict a dark evolutionary future: one where biotechnology is used to engineer "perfect" beings.</p>
+        <p class="modal-desc">Visible and mobile, the body is a thing among things. It is caught in the fabric of the world, and its coherence is that of a thing. But because it moves and sees, it holds things in a circle around itself. Things are an annex or an extension of itself — embedded in its flesh, part of its complete definition. The world is made of the same substance as the body.<br><span style="font-size:0.78rem;opacity:0.45;font-style:italic;">— Maurice Merleau-Ponty</span></p>
+
+        <div class="modal-storyboard">
+          <p class="modal-storyboard-label">Concept — The Fusion</p>
+          <img src="room_concept.png" alt="Room concept">
+          <p style="margin-top:0.85rem;font-size:0.82rem;color:var(--muted);line-height:1.75;">Each sculpture is born from the collision of three sources: an <strong style="color:var(--text);font-weight:500;">organic reference</strong> — the skin, as painted surface and living membrane — a <strong style="color:var(--text);font-weight:500;">structural reference</strong> — the wheel as load-bearing geometry — and the <strong style="color:var(--text);font-weight:500;">computer as medium</strong>, merging both into a single hybrid entity. The result is neither purely biological nor purely mechanical, but something that exists in between.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: RUBIK -->
+<div class="modal" id="modal-rubik" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('rubik')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-rubik">
+      <img class="gal-img active" src="rubik_101.jpg"              alt="Render"              data-caption="RUBIK — Overview">
+      <img class="gal-img"        src="rubik_123.jpg"              alt="Form study"          data-caption="Form Study">
+      <img class="gal-img"        src="rubik_136.jpg"              alt="Generated form 1"    data-caption="Generated Form — Parameter Set 1">
+      <img class="gal-img"        src="rubik_137.jpg"              alt="Generated form 2"    data-caption="Generated Form — Parameter Set 2">
+      <img class="gal-img"        src="rubik_138.jpg"              alt="Generated form 3"    data-caption="Generated Form — Parameter Set 3">
+      <img class="gal-img"        src="rubik_206.jpg"              alt="Landscape 206"       data-caption="Landscape — View 1">
+      <img class="gal-img"        src="rubik_208.jpg"              alt="Landscape 208"       data-caption="Landscape — View 2">
+      <img class="gal-img"        src="rubik_209.jpg"              alt="Landscape 209"       data-caption="Landscape — View 3">
+      <img class="gal-img"        src="rubik_210.jpg"              alt="Landscape 210"       data-caption="Landscape — View 4">
+      <div class="gal-caption" id="caption-rubik"></div>
+      <div class="gal-thumbs" id="thumbs-rubik"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('rubik')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('rubik')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">05 / Conceptual</p>
+        <h2 class="modal-title">RUBIK</h2>
+        <p class="modal-loc">Conceptual Project</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Parametric Design</span>
+          <span class="modal-tag">Conceptual Architecture</span>
+          <span class="modal-tag">Spatial Logic</span>
+          <span class="modal-tag">3ds Max + Keyshot</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">The Rubik's Cube is more than a puzzle — it is a model for critical reasoning. No matter how scrambled, any configuration of the cube can be resolved back into order. The same logic applies to language, philosophy, and ultimately, to space: apparent complexity is never truly irreducible. Beneath the chaos lies a system.</p>
+        <p class="modal-desc">With approximately 43 quintillion possible combinations, the cube was once an open question — could a human even solve it? The answer revealed something fundamental: every paradox, every apparent dead end, is simply a matter of untangling the language to expose the underlying rule. The law of identity — A is A — is the architecture of all reasoning. Understanding it is like seeing the cube in its fully solved state.</p>
+        <p class="modal-desc">This project begins from that premise. The Rubik's Cube becomes the generative logic for a spatial system — one governed by rotation, adjacency, and transformation, where shifting one element changes the state of every connected element.</p>
+
+        <div class="modal-storyboard">
+          <p class="modal-storyboard-label">The Parametrics of the Rubik</p>
+          <img src="rubik_parametric.png" alt="Parametrics of the Rubik">
+        </div>
+
+        <div class="modal-storyboard" style="margin-top:1.5rem;">
+          <p class="modal-storyboard-label">Reinventing the Parametrics of this Game</p>
+          <img src="rubik_reinventing.png" alt="Reinventing the parametrics">
+        </div>
+
+        <div class="modal-storyboard" style="margin-top:1.5rem;">
+          <p class="modal-storyboard-label">Parametric Extrusion — Form Generation</p>
+          <img src="rubik_parametricextrusion.png" alt="Parametric extrusion">
+          <p style="margin-top:0.85rem;font-size:0.82rem;color:var(--muted);line-height:1.75;">The cube's rotation and stacking rules are encoded as parametric operations — each set of parameters generates a distinct formal output. Shifting a single variable cascades through the entire system, producing a new configuration. The three generated forms (136, 137, 138) demonstrate this range.</p>
+        </div>
+
+        <div class="modal-storyboard" style="margin-top:1.5rem;">
+          <p class="modal-storyboard-label">Resulting Landscape</p>
+          <p style="margin-bottom:0.75rem;font-size:0.82rem;color:var(--muted);line-height:1.75;">When applied at scale, the parametric logic ceases to describe an object and begins to describe a terrain. Forms accumulate, overlap, and interlock — producing a continuous landscape whose complexity emerges from the same simple rules.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: DUBAI -->
+<div class="modal" id="modal-dubai" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('dubai')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-dubai">
+      <img class="gal-img active" src="dubai_thumbnail.png"       alt="Entrance"        data-caption="Complex Entrance">
+      <img class="gal-img"        src="dubai_birdview.png"        alt="Bird's eye view"  data-caption="Bird's Eye View">
+      <img class="gal-img"        src="dubai_interior.png"        alt="Interior"         data-caption="Interior View">
+      <img class="gal-img"        src="dubai_massplan.png"        alt="Mass plan"        data-caption="Mass Plan">
+      <img class="gal-img"        src="dubai_sectionandplan.png"  alt="Section & plan"   data-caption="Section &amp; Plan">
+      <div class="gal-caption" id="caption-dubai"></div>
+      <div class="gal-thumbs" id="thumbs-dubai"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('dubai')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('dubai')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">04 / Architecture</p>
+        <h2 class="modal-title">Multi-Comfort<br>Residence</h2>
+        <p class="modal-loc">Dubai, UAE</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Residential</span>
+          <span class="modal-tag">Urban Typology</span>
+          <span class="modal-tag">Sustainable Design</span>
+          <span class="modal-tag">AutoCAD + 3ds Max + Keyshot</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">The Multi-Comfort Residence draws its spatial logic from the traditional medina — specifically its urban fabric, where built mass and negative space interweave in a dense, organic pattern. The voids of the medina are reinterpreted and projected into three dimensions, hollowing out the building's volume into open, shaded courtyards.</p>
+        <p class="modal-desc">Beyond its residential programme, the building volume doubles as a structural canopy over the parking below — providing shade and contributing to a more sustainable urban footprint in Dubai's climate. Traditional architectural elements are reread through a contemporary lens, producing a building rooted in the history of Arab urbanism while meeting the demands of modern living.</p>
+
+        <div class="modal-steps">
+          <p class="modal-steps-label">Conceptual Diagram</p>
+          <div class="modal-diagram-wrap">
+            <img src="dubai_conceptual_diagram.png" alt="Dubai conceptual diagram">
+            <!-- 4 panels in a single row, circles at the bottom of each -->
+            <span class="diag-num" style="top:88%;left:12%">01</span>
+            <span class="diag-num" style="top:88%;left:37%">02</span>
+            <span class="diag-num" style="top:88%;left:63%">03</span>
+            <span class="diag-num" style="top:88%;left:88%">04</span>
+          </div>
+          <ol class="modal-steps-list">
+            <li data-n="01">Medina fabric — the traditional urban tissue of the medina: dense, irregular, and defined by its interweaving of solid and void.</li>
+            <li data-n="02">Solid / void — the mass (white) is read against the negative space (black), isolating the open interstitial spaces that give the medina its character.</li>
+            <li data-n="03">Void at multiple scales — the negative spaces are identified at two scales: large communal courtyards (red) and intimate passageways (blue), forming a spatial hierarchy.</li>
+            <li data-n="04">3D projection — the 2D void pattern is extruded and folded into three dimensions, generating the residential volume and its system of shaded, carved-out spaces.</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: SCHOOL -->
+<div class="modal" id="modal-school" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('school')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-school">
+      <img class="gal-img active" src="School_Thumbnail.jpg"    alt="The Pink Bridge"  data-caption="The Pink Bridge — Cultural Connector">
+      <img class="gal-img"        src="school_perspective.png" alt="Perspective"       data-caption="Exterior Perspective">
+      <img class="gal-img"        src="school_hall.jpg"        alt="Hall"              data-caption="Central Hall">
+      <img class="gal-img"        src="school_plans.png"       alt="Plans"             data-caption="Floor Plans">
+      <div class="gal-caption" id="caption-school"></div>
+      <div class="gal-thumbs" id="thumbs-school"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('school')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('school')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">03 / Architecture</p>
+        <h2 class="modal-title">Primary<br>School</h2>
+        <p class="modal-loc">Beirut, Lebanon — USJ Huvelin</p>
+
+        <div class="modal-tags">
+          <span class="modal-tag">Education</span>
+          <span class="modal-tag">Modular Design</span>
+          <span class="modal-tag">Urban Context</span>
+          <span class="modal-tag">AutoCAD + Rhino + Keyshot</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">Located opposite USJ Huvelin University, this primary school serves children aged 6 to 11. The programme includes modern classrooms, a cafeteria, secretariat, library, and a playground — all unified by a single spatial logic.</p>
+        <p class="modal-desc">The concept draws from a modular system: a single repeated unit, duplicated and stacked to generate the building's form. Classrooms share identical dimensions, making the module interchangeable — and the architecture inherently playful. Voids carved between modules bring light and movement into every level.</p>
+        <p class="modal-desc">The pink corridor does more than link the school's wings. It bridges two cultural poles: USJ University to the west and the church to the east — threading a civic and spiritual axis directly through the heart of the building.</p>
+
+        <div class="modal-steps">
+          <p class="modal-steps-label">Conceptual Diagram</p>
+
+          <div class="jenga-ref">
+            <img src="school_concept.png" alt="Jenga — design inspiration">
+            <div class="jenga-ref-text">
+              <span class="jenga-ref-label">Design Reference — Jenga</span>
+              <span class="jenga-ref-desc">Identical modules, stacked and shifted. The same logic that makes Jenga structurally precarious makes this school spatially dynamic — each classroom unit is the same size, but their arrangement creates variety.</span>
+            </div>
+          </div>
+
+          <div class="modal-diagram-wrap">
+            <img src="school_conceptual_diagram.png" alt="School conceptual diagram">
+            <span class="diag-num" style="top:44%;left:25%">01</span>
+            <span class="diag-num" style="top:44%;left:75%">02</span>
+            <span class="diag-num" style="top:90%;left:25%">03</span>
+            <span class="diag-num" style="top:90%;left:75%">04</span>
+          </div>
+
+          <ol class="modal-steps-list">
+            <li data-n="01">Modular logic — a single classroom unit is repeated, stacked, and shifted across the site, inspired by the playful yet disciplined stacking of Jenga.</li>
+            <li data-n="02">Hall orientation — the central hall is positioned to open directly onto the landscape and the church, grounding the school in its urban and spiritual context.</li>
+            <li data-n="03">Classroom positioning — each module is angled to offer a distinct, unobstructed view, ensuring no two classrooms share the same outlook.</li>
+            <li data-n="04">The pink bridge — a physical and symbolic connector between USJ University (blue, west) and the church (red, east), threading a cultural axis through the school.</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: NOUR -->
+<div class="modal" id="modal-nour" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('nour')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-nour">
+      <img class="gal-img active" src="nour_thumbnail.png" alt="Nour" data-caption="Nour">
+      <div class="gal-caption" id="caption-nour"></div>
+      <div class="gal-thumbs" id="thumbs-nour"></div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">Game — 01</p>
+        <h2 class="modal-title">Nour</h2>
+        <p class="modal-loc">Narrative Exploration</p>
+
+        <div class="modal-tags" style="padding-top:1rem;">
+          <span class="modal-tag">Art Direction</span>
+          <span class="modal-tag">3D Modelling</span>
+          <span class="modal-tag">Level Design</span>
+          <span class="modal-tag">Blender + Substance Painter + Unity</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">Nour is a narrative exploration game set in a Lebanon plunged into Eternal Night. Guided by a mysterious lantern, Nour searches for her mother, traverses forgotten ruins and faces menacing shadows.</p>
+        <p class="modal-desc">Her journey becomes a quest for acceptance, carried by solidarity and collective memory.</p>
+        <p class="modal-desc">I worked on this project as art director, 3D modeller and level designer.</p>
+        <p class="modal-desc">This project is a dedication to Lebanon — a way to share its beauty, its history and its resilience with the world, through the language of games.</p>
+
+        <!-- CULTURAL OBJECTS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Lebanese Cultural Objects</p>
+          <p class="modal-desc" style="margin-bottom:0.75rem;">Every asset in Nour is rooted in real Lebanese cultural objects — a way to weave the country's heritage into the world of the game.</p>
+          <img src="nour_objets.png" alt="Lebanese Cultural Objects" style="width:100%;display:block;filter:brightness(0.9);">
+        </div>
+
+        <!-- BAALBECK COLUMN -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Architectural Detail — Baalbeck Temple</p>
+          <p class="modal-desc" style="margin-bottom:0.75rem;">The column capitals were modelled directly from the ruins of the Baalbeck Temple, capturing the intricate carvings of one of Lebanon's most iconic ancient sites.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+            <div>
+              <img src="nour_column.png" alt="In-Game Column" style="width:100%;height:320px;object-fit:cover;display:block;filter:brightness(0.9);">
+              <p style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-top:0.4rem;">3D Model</p>
+            </div>
+            <div>
+              <img src="nour_columnreal.jpg" alt="Baalbeck Temple Reference" style="width:100%;height:320px;object-fit:cover;display:block;filter:brightness(0.9);">
+              <p style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.4rem;">Baalbeck Temple</p>
+            </div>
+          </div>
+          <video src="nour_Short Video Column.mp4" controls muted loop playsinline style="width:100%;display:block;margin-top:4px;background:#000;"></video>
+          <p style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.4rem;">Column — Elements &amp; Details</p>
+        </div>
+
+        <a class="game-play-link" href="https://isjovi.itch.io/nour" target="_blank" rel="noopener" style="margin-top:2rem;">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          Play the game on itch.io
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: ROUE LIBRE -->
+<div class="modal" id="modal-rouelibre" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('rouelibre')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-rouelibre">
+      <img class="gal-img active" src="timmy_thumbnail.png" alt="Roue Libre" data-caption="Roue Libre">
+      <img class="gal-img" src="timmy_visual.png" alt="Roue Libre — Visual" data-caption="Roue Libre — Visual">
+      <div class="gal-caption" id="caption-rouelibre"></div>
+      <div class="gal-thumbs" id="thumbs-rouelibre"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('rouelibre')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('rouelibre')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">Game — 03</p>
+        <h2 class="modal-title">Roue Libre</h2>
+        <p class="modal-loc">Runner — City</p>
+
+        <div class="modal-tags" style="padding-top:1rem;">
+          <span class="modal-tag">Art Direction</span>
+          <span class="modal-tag">3D Modelling</span>
+          <span class="modal-tag">Level Art</span>
+          <span class="modal-tag">Unity + Blender</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">A teenager in a wheelchair, determined to arrive on time at an athletics competition to cheer on his favourite Paralympic athlete. To motivate himself, he sets a challenge: race through the city at full speed!</p>
+        <p class="modal-desc">I handled art direction, 3D modelling and level art on this project.</p>
+
+        <!-- MODULAR ROADS -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Modular Roads</p>
+          <div class="modal-img-row-grid" style="grid-template-columns: repeat(5, 1fr);">
+            <img src="timmy_modular (1).png" alt="Modular Road 1" style="aspect-ratio:1;object-fit:cover;">
+            <img src="timmy_modular (2).png" alt="Modular Road 2" style="aspect-ratio:1;object-fit:cover;">
+            <img src="timmy_modular (3).png" alt="Modular Road 3" style="aspect-ratio:1;object-fit:cover;">
+            <img src="timmy_modular (4).png" alt="Modular Road 4" style="aspect-ratio:1;object-fit:cover;">
+            <img src="timmy_modular (5).png" alt="Modular Road 5" style="aspect-ratio:1;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- ASSET EXAMPLES -->
+        <div class="modal-img-row" style="margin-top:2rem;">
+          <p class="modal-img-row-label">Asset Examples</p>
+          <div class="modal-img-row-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <img src="timmy_assets (1).png"  alt="Asset 01" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (2).png"  alt="Asset 02" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (3).png"  alt="Asset 03" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (4).png"  alt="Asset 04" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (5).png"  alt="Asset 05" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (6).png"  alt="Asset 06" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (7).png"  alt="Asset 07" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (8).png"  alt="Asset 08" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (9).png"  alt="Asset 09" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (10).png" alt="Asset 10" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (11).png" alt="Asset 11" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+            <img src="timmy_assets (12).png" alt="Asset 12" data-lbgroup="rl-assets" style="cursor:zoom-in;" onclick="mmLbOpenGroup(this)">
+          </div>
+        </div>
+
+        <a class="game-play-link" href="https://kems-studio.itch.io/roue-libre" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          Play the game on itch.io
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- MODAL: CHASING GOODBYES -->
+<div class="modal" id="modal-cg" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeModal('cg')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </button>
+  <div class="modal-split">
+
+    <div class="gal-stage" id="gal-cg">
+      <img class="gal-img active" src="chasinggoodbyes_thumbnail.png" alt="Chasing Goodbyes" data-caption="Chasing Goodbyes">
+      <img class="gal-img" src="chasinggoodbyes (1).png" alt="Chasing Goodbyes — 01" data-caption="Chasing Goodbyes — 01">
+      <img class="gal-img" src="chasinggoodbyes (2).png" alt="Chasing Goodbyes — 02" data-caption="Chasing Goodbyes — 02">
+      <div class="gal-caption" id="caption-cg"></div>
+      <div class="gal-thumbs" id="thumbs-cg"></div>
+      <div class="gal-nav">
+        <button class="gal-btn" onclick="prevImg('cg')"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg></button>
+        <button class="gal-btn" onclick="nextImg('cg')"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></button>
+      </div>
+    </div>
+
+    <div class="modal-panel">
+      <div class="modal-info">
+        <p class="modal-num">Game — 02</p>
+        <h2 class="modal-title">Chasing<br>Goodbyes</h2>
+        <p class="modal-loc">Runner — Narrative</p>
+
+        <div class="modal-tags" style="padding-top:1rem;">
+          <span class="modal-tag">Art Direction</span>
+          <span class="modal-tag">3D Artist</span>
+          <span class="modal-tag">3D Animation</span>
+          <span class="modal-tag">Level Artist</span>
+          <span class="modal-tag">Unity + Blender</span>
+        </div>
+
+        <p class="modal-desc" style="margin-top:1.75rem;">Chasing Goodbyes is an atypical runner where you play as a mother sprinting along a train platform to say goodbye to her daughter before she leaves for university — but you still need to find the right carriage in time!</p>
+        <p class="modal-desc">Luckily, her daughter sends clues by text message throughout the frantic run.</p>
+        <p class="modal-desc">I worked on this project as art director, 3D artist, 3D animator, and level artist.</p>
+
+        <a class="game-play-link" href="https://flegmatik-surf.itch.io/chasing-goodbyes" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          Play the game on itch.io
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  var galState = {};
+
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+    initGallery(id);
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.modal').forEach(function(m) {
+    m.addEventListener('click', function(e) { if (e.target === m) { m.classList.remove('open'); document.body.style.overflow = ''; } });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (document.getElementById('mm-lb').classList.contains('open')) {
+        mmLbClose();
+      } else {
+        document.querySelectorAll('.modal.open').forEach(function(m) { m.classList.remove('open'); document.body.style.overflow = ''; });
+      }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      var dir = e.key === 'ArrowLeft' ? -1 : 1;
+      // Lightbox open — navigate images
+      if (document.getElementById('mm-lb').classList.contains('open')) {
+        mmLbNav(dir);
+      // MM modal open — navigate last active carousel
+      } else if (document.getElementById('modal-mm').classList.contains('open')) {
+        if (mmLastCar.type === 'diag') {
+          mmDiagGo(dir);
+        } else {
+          mmCarGo(mmLastCar.carId, mmLastCar.nameId, mmLastCar.cntId, dir);
+        }
+      // Other gallery-based modals
+      } else {
+        var openModal = document.querySelector('.modal.open');
+        if (openModal) {
+          var mid = openModal.id.replace('modal-', '');
+          if (galState[mid] !== undefined) { dir === 1 ? nextImg(mid) : prevImg(mid); }
+        }
+      }
+    }
+  });
+  document.querySelectorAll('.project-card[tabindex]').forEach(function(c) {
+    c.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); } });
+  });
+
+  function initGallery(id) {
+    if (galState[id] !== undefined) return;
+    galState[id] = 0;
+    var imgs = document.querySelectorAll('#gal-' + id + ' .gal-img');
+    var box  = document.getElementById('thumbs-' + id);
+    if (!box || imgs.length === 0) return;
+    imgs.forEach(function(img, i) {
+      var t = document.createElement('img');
+      t.src = img.src;
+      t.className = 'gal-thumb' + (i === 0 ? ' active' : '');
+      (function(n){ t.addEventListener('click', function(){ goTo(id, n); }); })(i);
+      box.appendChild(t);
+    });
+    updateCaption(id);
+  }
+  function updateCaption(id) {
+    var cap = document.getElementById('caption-' + id);
+    if (!cap) return;
+    var imgs = document.querySelectorAll('#gal-' + id + ' .gal-img');
+    cap.textContent = imgs[galState[id]] ? (imgs[galState[id]].dataset.caption || '') : '';
+  }
+  function goTo(id, i) {
+    var imgs = document.querySelectorAll('#gal-' + id + ' .gal-img');
+    var ths  = document.querySelectorAll('#thumbs-' + id + ' .gal-thumb');
+    imgs[galState[id]].classList.remove('active'); ths[galState[id]].classList.remove('active');
+    galState[id] = (i + imgs.length) % imgs.length;
+    imgs[galState[id]].classList.add('active'); ths[galState[id]].classList.add('active');
+    updateCaption(id);
+  }
+  function nextImg(id) { goTo(id, galState[id] + 1); }
+  function prevImg(id) { goTo(id, galState[id] - 1); }
+
+  /* MM Meat Builder — pick selection */
+  function mmPick(cat, el) {
+    document.querySelectorAll('#mmrow-' + cat + ' .mm-builder-opt').forEach(function(o) { o.classList.remove('sel'); });
+    el.classList.add('sel');
+    document.getElementById('mmsel-' + cat).src = el.src;
+  }
+
+  /* Zoom lightbox */
+  var mmLbScale = 1, mmLbX = 0, mmLbY = 0, mmLbDrag = false, mmLbDX, mmLbDY;
+  var mmLbCar = null, mmLbNameEl = null, mmLbCntEl = null;
+  var mmLbSet = null, mmLbSetIdx = 0; // for grid-based groups
+  function mmLbApply() {
+    var img = document.getElementById('mm-lb-img');
+    img.style.transform = 'translate(calc(-50% + '+mmLbX+'px), calc(-50% + '+mmLbY+'px)) scale('+mmLbScale+')';
+    img.style.transition = mmLbDrag ? 'none' : 'transform 0.15s ease';
+  }
+  function mmLbOpen(src, label, carId, nameId, cntId) {
+    document.getElementById('mm-lb-img').src = src;
+    document.getElementById('mm-lb-label').textContent = label;
+    mmLbCar = carId || null; mmLbNameEl = nameId || null; mmLbCntEl = cntId || null;
+    mmLbSet = null;
+    mmLbScale = 1; mmLbX = 0; mmLbY = 0; mmLbApply();
+    document.getElementById('mm-lb').classList.add('open');
+  }
+  /* Open from a grid — collects all siblings with same data-lbgroup for arrow nav */
+  function mmLbOpenGroup(el) {
+    var group = el.dataset.lbgroup;
+    var all = Array.from(document.querySelectorAll('[data-lbgroup="' + group + '"]'));
+    mmLbSet = all.map(function(img) { return { src: img.src, label: img.alt || '' }; });
+    mmLbSetIdx = all.indexOf(el);
+    mmLbCar = null;
+    document.getElementById('mm-lb-img').src = mmLbSet[mmLbSetIdx].src;
+    document.getElementById('mm-lb-label').textContent = mmLbSet[mmLbSetIdx].label;
+    mmLbScale = 1; mmLbX = 0; mmLbY = 0; mmLbApply();
+    document.getElementById('mm-lb').classList.add('open');
+  }
+  function mmLbNav(dir) {
+    if (mmLbCar) {
+      mmCarGo(mmLbCar, mmLbNameEl, mmLbCntEl, dir);
+      var idx = mmCarIdxs[mmLbCar] || 0;
+      var slide = document.querySelectorAll('#' + mmLbCar + ' .mm-car-slide')[idx];
+      document.getElementById('mm-lb-img').src = slide.querySelector('img').src;
+      document.getElementById('mm-lb-label').textContent = slide.dataset.name;
+      mmLbScale = 1; mmLbX = 0; mmLbY = 0; mmLbApply();
+    } else if (mmLbSet && mmLbSet.length > 1) {
+      mmLbSetIdx = (mmLbSetIdx + dir + mmLbSet.length) % mmLbSet.length;
+      document.getElementById('mm-lb-img').src = mmLbSet[mmLbSetIdx].src;
+      document.getElementById('mm-lb-label').textContent = mmLbSet[mmLbSetIdx].label;
+      mmLbScale = 1; mmLbX = 0; mmLbY = 0; mmLbApply();
+    }
+  }
+  function mmLbClose() { document.getElementById('mm-lb').classList.remove('open'); }
+  function mmLbZoom(d) { mmLbScale = Math.min(Math.max(mmLbScale + d, 0.5), 8); if (mmLbScale <= 1) { mmLbX = 0; mmLbY = 0; } mmLbApply(); }
+  function mmLbReset() { mmLbScale = 1; mmLbX = 0; mmLbY = 0; mmLbApply(); }
+  document.getElementById('mm-lb-inner').addEventListener('wheel', function(e) {
+    e.preventDefault();
+    mmLbScale = Math.min(Math.max(mmLbScale + (e.deltaY < 0 ? 0.2 : -0.2), 0.5), 8);
+    if (mmLbScale <= 1) { mmLbX = 0; mmLbY = 0; }
+    mmLbApply();
+  }, { passive: false });
+  document.getElementById('mm-lb-inner').addEventListener('mousedown', function(e) {
+    if (mmLbScale <= 1) return;
+    mmLbDrag = true; mmLbDX = e.clientX - mmLbX; mmLbDY = e.clientY - mmLbY;
+    this.classList.add('grabbing');
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!mmLbDrag) return;
+    mmLbX = e.clientX - mmLbDX; mmLbY = e.clientY - mmLbDY; mmLbApply();
+  });
+  document.addEventListener('mouseup', function() {
+    if (!mmLbDrag) return;
+    mmLbDrag = false;
+    var el = document.getElementById('mm-lb-inner');
+    if (el) el.classList.remove('grabbing');
+  });
+  document.getElementById('mm-lb').addEventListener('click', function(e) {
+    if (e.target === this) mmLbClose();
+  });
+
+  /* Generic carousel used by plans + sections */
+  var mmCarIdxs = {};
+  var mmLastCar = { type: 'diag' }; // track last interacted carousel for arrow keys
+  function mmCarGo(carId, nameId, cntId, dir) {
+    var slides = document.querySelectorAll('#' + carId + ' .mm-car-slide');
+    var idx = mmCarIdxs[carId] || 0;
+    slides[idx].classList.remove('active');
+    idx = (idx + dir + slides.length) % slides.length;
+    mmCarIdxs[carId] = idx;
+    slides[idx].classList.add('active');
+    document.getElementById(nameId).textContent = slides[idx].dataset.name;
+    var c = idx + 1, t = slides.length;
+    document.getElementById(cntId).textContent = (c < 10 ? '0'+c : c) + ' / ' + (t < 10 ? '0'+t : t);
+    mmLastCar = { type: 'generic', carId: carId, nameId: nameId, cntId: cntId };
+  }
+
+  /* MM diagram carousel */
+  var mmDiagIdx = 0;
+  function mmDiagGo(dir) {
+    var slides = document.querySelectorAll('#mm-diag-car .mm-car-slide');
+    slides[mmDiagIdx].classList.remove('active');
+    mmDiagIdx = (mmDiagIdx + dir + slides.length) % slides.length;
+    slides[mmDiagIdx].classList.add('active');
+    document.getElementById('mm-diag-name').textContent = slides[mmDiagIdx].dataset.name;
+    var c = mmDiagIdx + 1;
+    document.getElementById('mm-diag-cnt').textContent = (c < 10 ? '0'+c : c) + ' / 03';
+    mmLastCar = { type: 'diag' };
+  }
+
+  /* ── CURSOR TRAIL ──────────────────────────────────── */
+  var trailDots = [];
+  for (var ti = 0; ti < 10; ti++) {
+    var td = document.createElement('div');
+    td.style.cssText = 'position:fixed;width:5px;height:5px;border-radius:50%;background:#e8ff47;pointer-events:none;z-index:9999;opacity:0;transition:none;';
+    document.body.appendChild(td);
+    trailDots.push(td);
+  }
+  var trailIdx = 0;
+  document.addEventListener('mousemove', function(e) {
+    var dot = trailDots[trailIdx];
+    dot.style.transition = 'none';
+    dot.style.left = (e.clientX - 2.5) + 'px';
+    dot.style.top  = (e.clientY - 2.5) + 'px';
+    dot.style.opacity = '0.55';
+    dot.style.transform = 'scale(1)';
+    (function(d) {
+      setTimeout(function() {
+        d.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+        d.style.opacity = '0';
+        d.style.transform = 'scale(0)';
+      }, 30);
+    })(dot);
+    trailIdx = (trailIdx + 1) % trailDots.length;
+  });
+
+  /* ── SCROLL REVEAL ──────────────────────────────────── */
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.project-card, .game-card, .skill-item, .edu-card, .about-role').forEach(function(el, i) {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    revealObs.observe(el);
+  });
+
+  var done = false;
+  new IntersectionObserver(function(e) {
+    if (done || !e[0].isIntersecting) return; done = true;
+    document.querySelectorAll('.skill-fill').forEach(function(f){ f.style.transform = 'scaleX(' + f.dataset.w + ')'; });
+  }, { threshold: 0.15 }).observe(document.getElementById('skills'));
+</script>
+</body>
+</html>
