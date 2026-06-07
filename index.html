@@ -369,12 +369,13 @@
       /* Hero font mobile */
       .hero-name { font-size: clamp(3rem, 15vw, 5rem); }
 
-      /* Gallery: push thumbs + nav below image on mobile */
-      .gal-stage { padding-bottom: 80px; }
-      .gal-caption { bottom: 52px; font-size: 0.62rem; }
-      .gal-thumbs { bottom: 8px; left: 1rem; max-width: calc(100% - 5rem); }
+      /* Gallery: reserve 70px strip at bottom for thumbs + nav */
+      .modal-split { grid-template-rows: calc(50vw + 70px) 1fr; }
+      .gal-img { bottom: 70px; } /* images stop 70px before bottom of stage */
+      .gal-caption { bottom: 76px; font-size: 0.62rem; }
+      .gal-thumbs { bottom: 10px; left: 1rem; max-width: calc(100% - 5.5rem); }
       .gal-thumb { width: 36px; height: 28px; }
-      .gal-nav { bottom: 8px; right: 1rem; }
+      .gal-nav { bottom: 10px; right: 1rem; }
     }
 
     @media (max-width: 480px) {
